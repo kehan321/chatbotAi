@@ -1,7 +1,6 @@
 
 import 'dart:ui';
-
-import 'package:chatbot/view/chatScreen.dart';
+import 'package:chatbot/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -39,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(Duration(seconds: 5), () {
       if (!_hasNavigated) {
         _hasNavigated = true; // Mark navigation as done
-        Get.to(ChatScreen()); // Replace with your next screen's route
+        Get.to(LoginScreen()); // Replace with your next screen's route
       }
     });
   }

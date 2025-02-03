@@ -38,6 +38,7 @@ dependencies:
   http:
   flutter_dotenv:
   speech_to_text:
+  shared_preferences:
 
 
 
