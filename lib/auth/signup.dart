@@ -39,24 +39,18 @@ class _SingupScreenState extends State<SingupScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25,),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Center(
-                      child: Image.asset('assets/logo.png', height: 100),
-                    ),
-                  ),
+                  const SizedBox(height: 100),
+
                   Center(
-                    child: const Text(
-                      "VIORA",
-                      style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
+                    child: Image.asset('assets/logo.png', height: 100),
                   ),
-                  const SizedBox(height: 40),
+              
+                  const SizedBox(height: 20),
                   Center(
-                    child: const Text("Sign Up", style: TextStyle(fontSize: 18, color: Colors.black)),
+                    child: const Text("Sign Up", style: TextStyle(fontSize: 36, color: Colors.white,fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(height: 15),
                   buildTextField("Email ID", Icons.email, false, emailController),
@@ -149,6 +143,13 @@ class _SingupScreenState extends State<SingupScreen> {
                           : const Text("Sign Up", style: TextStyle(fontSize: 18)),
                     ),
                   ),
+                  const SizedBox(height: 20),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () => Get.to(() => LoginScreen()),
+                        child: Text("Already have an account Sign In", style: TextStyle(fontSize: 16, color: Colors.black)),
+                      ),
+                    ),
                 ],
               ),
             ),

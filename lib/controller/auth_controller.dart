@@ -1,3 +1,4 @@
+import 'package:chatbot/auth/login.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,5 +79,6 @@ class AuthController extends GetxController {
     isLoggedIn.value = false;
     userEmail.value = '';
     Get.snackbar("Logged Out", "You have been logged out successfully.");
+    Get.off(LoginScreen());
   }
 }

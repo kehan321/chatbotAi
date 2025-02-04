@@ -1,3 +1,4 @@
+import 'package:chatbot/controller/auth_controller.dart';
 import 'package:chatbot/controller/chatbot_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import '../controller/theme_controller.dart';
 class ChatScreen extends StatelessWidget {
   final ThemeController themeController = Get.put(ThemeController());
   final ChatController chatController = Get.put(ChatController());
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +28,14 @@ class ChatScreen extends StatelessWidget {
           home: Scaffold(
             appBar: AppBar(
               title: Text(
-                'AI Chatbot',
+                'VIORA ',
                 style: TextStyle(
                   color: themeController.themeMode.value == ThemeMode.dark
                       ? Colors.black // White text in dark mode
-                      : Colors.white, // Black text in light mode
+                      : Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32
+                       // Black text in light mode
                 ),
               ),
               backgroundColor:
@@ -41,6 +46,10 @@ class ChatScreen extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.brightness_6),
                   onPressed: themeController.toggleTheme,
+                ),
+                IconButton(
+                  icon: Icon(Icons.logout_outlined),
+                  onPressed: authController.logout,
                 ),
               ],
             ),

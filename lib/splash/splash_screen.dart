@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:chatbot/auth/login.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen>
             right: 0,
             child: Center(
               child: Text(
-                'AI CHATBOT',
+                'VIORA',
                 style: TextStyle(
                   fontSize: 34,
                   fontWeight: FontWeight.bold,
