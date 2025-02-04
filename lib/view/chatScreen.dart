@@ -25,17 +25,17 @@ class ChatScreen extends StatelessWidget {
             scaffoldBackgroundColor: Colors.black,
             textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
           ),
+          debugShowCheckedModeBanner: false,
           home: Scaffold(
             appBar: AppBar(
               title: Text(
-                'VIORA ',
+                'VIORA',
                 style: TextStyle(
                   color: themeController.themeMode.value == ThemeMode.dark
-                      ? Colors.black // White text in dark mode
-                      : Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 32
-                       // Black text in light mode
+                      ? Colors.white // White text in dark mode
+                      : Colors.white, // Black text in light mode
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
                 ),
               ),
               backgroundColor:
@@ -49,9 +49,100 @@ class ChatScreen extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.logout_outlined),
-                  onPressed: authController.logout,
+                  onPressed: () {
+                    // Show the confirmation dialog using GetX
+                    Get.dialog(
+                      Dialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(15), // Rounded corners
+                        ),
+                        elevation: 16,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.exit_to_app,
+                                color: Colors.red,
+                                size: 50,
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                'Confirm Logout',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Are you sure you want to log out?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              SizedBox(height: 30),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back(); // Close the dialog
+                                    },
+                                    child: Text(
+                                      'Cancel',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // Perform the logout action
+                                      authController.logout();
+                                      Get.back(); // Close the dialog
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors
+                                          .red, // Red color for logout button
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Logout',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
+              bottom: PreferredSize(
+                preferredSize:
+                    Size.fromHeight(1.0), // Set the height of the bottom border
+                child: Container(
+                  color: Colors.white, // White border color
+                  height: 6.0, // Set the thickness of the border
+                ),
+              ),
             ),
             body: Column(
               children: [
