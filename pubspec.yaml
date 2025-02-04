@@ -39,6 +39,7 @@ dependencies:
   flutter_dotenv:
   speech_to_text:
   shared_preferences:
+  flutter_launcher_icons: ^0.14.3
 
 
 
@@ -46,6 +47,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+  android_icon_size: 72
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

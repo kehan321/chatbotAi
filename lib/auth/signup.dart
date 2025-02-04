@@ -29,8 +29,8 @@ class SingupScreen extends StatelessWidget {
                 ),
                 Center(
                   child: const Text(
-                    "AQUA MASTER",
-                    style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.black),
+                    "VIORA",
+                    style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
                 const SizedBox(height: 40),
