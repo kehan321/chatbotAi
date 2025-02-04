@@ -17,12 +17,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String emailError = '';
   String passwordError = '';
-  bool isLoading = false; // Loading state
+  bool isLoading = false;
+  bool showPassword = false; // State for password visibility
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true, // Fix for keyboard overflow
+      resizeToAvoidBottomInset: true,
       body: Center(
         child: Stack(
           fit: StackFit.expand,
@@ -36,31 +37,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 100),
-
-                  Center(
-                    child: Image.asset('assets/logo.png', height: 100),
-                  ),
-              
-                  const SizedBox(height: 20),
-                  Center(
-                    child: const Text("Sign In", style: TextStyle(fontSize: 36, color: Colors.white,fontWeight: FontWeight.bold)),
-                  ),
-                  const SizedBox(height: 15),
-                    buildTextField("Email ID", Icons.email, false, emailController),
-                    if (emailError.isNotEmpty) 
+                    Center(child: Image.asset('assets/logo.png', height: 100)),
+                    const SizedBox(height: 20),
+                    const Center(
+                      child: Text(
+                        "Sign In",
+                        style: TextStyle(fontSize: 36, color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    buildTextField("Email ID", Icons.email, false, emailController, false),
+                    if (emailError.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(left: 12.0),
                         child: Text(emailError, style: TextStyle(color: Colors.red)),
                       ),
                     const SizedBox(height: 15),
-                    buildTextField("Enter Password", Icons.lock, true, passwordController),
-                    if (passwordError.isNotEmpty) 
+                    buildTextField("Enter Password", Icons.lock, true, passwordController, true),
+                    if (passwordError.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(left: 12.0),
                         child: Text(passwordError, style: TextStyle(color: Colors.red)),
                       ),
                     const SizedBox(height: 20),
-                    
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -71,11 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onPressed: isLoading ? null : _handleLogin,
                         child: isLoading
-                            ? CircularProgressIndicator(color: Colors.black) // Loading Indicator
+                            ? CircularProgressIndicator(color: Colors.black)
                             : Text("Log In", style: TextStyle(fontSize: 18)),
                       ),
                     ),
-        
                     const SizedBox(height: 20),
                     Center(
                       child: GestureDetector(
@@ -93,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  /// Function to handle login
   Future<void> _handleLogin() async {
     setState(() {
       emailError = '';
@@ -124,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (isLoggedIn) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('email', email);
-      Get.to(() => ChatScreen());
+      Get.off(() => ChatScreen());
     } else {
       setState(() {
         emailError = 'Invalid email or password';
@@ -134,10 +133,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Widget buildTextField(String hint, IconData icon, bool obscure, TextEditingController controller) {
+  /// TextField builder function with password visibility toggle
+  Widget buildTextField(String hint, IconData icon, bool isPassword, TextEditingController controller, bool isPasswordField) {
     return TextField(
       controller: controller,
-      obscureText: obscure,
+      obscureText: isPasswordField ? !showPassword : false,
       style: TextStyle(color: Colors.black),
       decoration: InputDecoration(
         hintText: hint,
@@ -145,6 +145,16 @@ class _LoginScreenState extends State<LoginScreen> {
         filled: true,
         fillColor: Colors.black.withOpacity(0.1),
         prefixIcon: Icon(icon, color: Colors.black),
+        suffixIcon: isPasswordField
+            ? IconButton(
+                icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off, color: Colors.black),
+                onPressed: () {
+                  setState(() {
+                    showPassword = !showPassword;
+                  });
+                },
+              )
+            : null,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );

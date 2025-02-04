@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:chatbot/splash/splash_screen.dart';
-import 'package:chatbot/view/chatScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -21,6 +20,6 @@ void main() async {
   await dotenv.load(fileName: ".env");
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ChatScreen(),
+    home: SplashScreen(),
   ));
 }

@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(Duration(seconds: 5), () {
       if (!_hasNavigated) {
         _hasNavigated = true; // Mark navigation as done
-        Get.to(LoginScreen()); // Replace with your next screen's route
+        Get.off(LoginScreen()); // Replace with your next screen's route
       }
     });
   }
@@ -108,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen>
               child: Text(
                 'VIORA',
                 style: TextStyle(
-                  fontSize: 34,
+                  fontSize: 42,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: 'Arial',

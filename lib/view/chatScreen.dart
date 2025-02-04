@@ -1,5 +1,6 @@
 import 'package:chatbot/controller/auth_controller.dart';
 import 'package:chatbot/controller/chatbot_controller.dart';
+import 'package:chatbot/indicator/indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/theme_controller.dart';
@@ -28,6 +29,7 @@ class ChatScreen extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           home: Scaffold(
             appBar: AppBar(
+              toolbarHeight: 80,
               title: Text(
                 'VIORA',
                 style: TextStyle(
@@ -66,7 +68,7 @@ class ChatScreen extends StatelessWidget {
                             children: <Widget>[
                               Icon(
                                 Icons.exit_to_app,
-                                color: Colors.red,
+                                color: Color(0xFF1C97C1),
                                 size: 50,
                               ),
                               SizedBox(height: 20),
@@ -111,8 +113,8 @@ class ChatScreen extends StatelessWidget {
                                       Get.back(); // Close the dialog
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors
-                                          .red, // Red color for logout button
+                                      backgroundColor: Color(
+                                          0xFF1C97C1), // Red color for logout button
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -176,7 +178,7 @@ class ChatScreen extends StatelessWidget {
                               ),
                               child: message['message'] == '...' &&
                                       !isUserMessage
-                                  ? _buildTypingIndicator() // Show typing indicator
+                                  ? TypingIndicator() // Show typing indicator
                                   : Text(
                                       message['message']!,
                                       style: TextStyle(
@@ -198,67 +200,85 @@ class ChatScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Expanded(
-                          child: TextField(
-                            controller: chatController.controller,
-                            style: TextStyle(
-                              color: themeController.themeMode.value ==
-                                      ThemeMode.dark
-                                  ? Colors.white // White text in dark mode
-                                  : Colors.black, // Black text in light mode
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Enter your message...',
-                              filled: true, // Enable fillColor
-                              fillColor: themeController.themeMode.value ==
-                                      ThemeMode.dark
-                                  ? Colors
-                                      .grey[800] // Dark mode background color
-                                  : Colors
-                                      .grey[200], // Light mode background color
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                    color: Color(0xFF1C97C1), width: 1),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: themeController.themeMode.value ==
+                                    ThemeMode.light
+                                ? Colors.white
+                                : const Color.fromARGB(255, 218, 216, 216),
+                            width: 4),
+                        color: themeController.themeMode.value == ThemeMode.dark
+                            ? Colors.grey[300]
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Expanded(
+                              child: TextField(
+                                controller: chatController.controller,
+                                style: TextStyle(
+                                  color: themeController.themeMode.value ==
+                                          ThemeMode.dark
+                                      ? Colors.white // White text in dark mode
+                                      : Colors
+                                          .black, // Black text in light mode
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: 'Enter your message...',
+                                  filled: true, // Enable fillColor
+                                  fillColor: themeController.themeMode.value ==
+                                          ThemeMode.dark
+                                      ? Colors
+                                          .grey // Dark mode background color
+                                      : Colors.grey[
+                                          200], // Light mode background color
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide: BorderSide(
+                                        color: Color(0xFF1C97C1), width: 1),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                ),
                               ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: chatController.sendMessage,
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Color(0xFF1C97C1),
-                          child: Icon(Icons.send, color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Obx(
-                        () => GestureDetector(
-                          onLongPress: chatController.startListening,
-                          onLongPressUp: chatController.stopListening,
-                          child: CircleAvatar(
-                            radius: 30,
-                            backgroundColor: chatController.isListening.value
-                                ? Colors.redAccent
-                                : Colors.grey,
-                            child: Icon(
-                              chatController.isListening.value
-                                  ? Icons.mic_off
-                                  : Icons.mic,
-                              color: Colors.white,
+                          SizedBox(width: 8),
+                          GestureDetector(
+                            onTap: chatController.sendMessage,
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Color(0xFF1C97C1),
+                              child: Icon(Icons.send, color: Colors.white),
                             ),
                           ),
-                        ),
+                          SizedBox(width: 10),
+                          Obx(
+                            () => GestureDetector(
+                              onLongPress: chatController.startListening,
+                              onLongPressUp: chatController.stopListening,
+                              child: CircleAvatar(
+                                radius: 25,
+                                backgroundColor:
+                                    chatController.isListening.value
+                                        ? Colors.redAccent
+                                        : Colors.grey,
+                                child: Icon(
+                                  chatController.isListening.value
+                                      ? Icons.mic_off
+                                      : Icons.mic,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],
@@ -266,38 +286,6 @@ class ChatScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildTypingIndicator() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          'AI ',
-          style: TextStyle(fontSize: 16, color: Colors.black87),
-        ),
-        SizedBox(width: 6),
-        SizedBox(
-          width: 20,
-          height: 8,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(
-              3,
-              (index) => AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                width: 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  color: Colors.black54,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
